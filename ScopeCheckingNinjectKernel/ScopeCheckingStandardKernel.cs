@@ -11,12 +11,6 @@ namespace ScopeCheckingNinjectKernel
     /// <summary>A <see cref="StandardKernel"/> which additionally checks that injected objects are correctly scoped.</summary>
     public class ScopeCheckingStandardKernel : StandardKernel
     {
-        /// <summary>Initializes a new instance of the <see cref="ScopeCheckingStandardKernel"/> class.</summary>
-        public ScopeCheckingStandardKernel()
-        {
-            IgnoreTransientScopedParents = true;
-        }
-
         /// <summary>Gets or sets a value indicating whether a transient scoped object is allowed in a singleton scoped object.</summary>
         public bool AllowTransientScopeInSingletonScope { get; set; }
 
@@ -26,8 +20,7 @@ namespace ScopeCheckingNinjectKernel
         /// <summary>Gets or sets a value indicating whether a transient scoped object is allowed in a custom scoped object.</summary>
         public bool AllowTransientScopeInCustomScope { get; set; }
 
-        /// <summary>Gets or sets a value indicating whether to disable checks on transient scoped parent objects 
-        /// (default: true, because ASP.NET controllers are not request scoped and may use request scoped services).</summary>
+        /// <summary>Gets or sets a value indicating whether to disable checks on transient scoped parent objects.</summary
         public bool IgnoreTransientScopedParents { get; set; }
 
         /// <summary>Resolves instances for the specified request. 
