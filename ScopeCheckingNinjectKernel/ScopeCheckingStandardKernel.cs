@@ -62,23 +62,26 @@ namespace ScopeCheckingNinjectKernel
                 return true;
 
             var isChildSingletonScoped = scope == this;
+            if (isChildSingletonScoped)
+                return true;
+
             var isChildTransientScoped = scope == null;
             var isChildPerRequestScoped = scope != null && scope.GetType().Name == "HttpContext";
 
             var isParentSingletonScoped = parentScope == this;
             if (isParentSingletonScoped)
-                return isChildSingletonScoped || (AllowTransientScopeInSingletonScope && isChildTransientScoped);
+                return AllowTransientScopeInSingletonScope && isChildTransientScoped;
 
             var isParentThreadScoped = parentScope is Thread;
             if (isParentThreadScoped)
-                return isChildSingletonScoped || (AllowTransientScopeInThreadScope && isChildTransientScoped);
+                return AllowTransientScopeInThreadScope && isChildTransientScoped;
 
             var isParentAController = parentBinding.Service.Name.EndsWith("Controller");
             var isParentTransientScoped = parentScope == null;
             if (isParentTransientScoped)
-                return isChildSingletonScoped || (AllowPerRequestScopeInTransientScopedController && isParentAController && isChildPerRequestScoped);
+                return AllowPerRequestScopeInTransientScopedController && isParentAController && isChildPerRequestScoped;
 
-            return (AllowTransientScopeInCustomScope && isChildTransientScoped);
+            return AllowTransientScopeInCustomScope && isChildTransientScoped;
         }
     }
 }
